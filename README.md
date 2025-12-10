@@ -63,7 +63,7 @@ go build
 ## Using the container in K8s
 
 ```
-kubectl apply -f example_usage.yml
+kubectl apply -f examples/example_usage.yml
 ```
 
 

@@ -66,7 +66,7 @@ runs:
 
     - name: Deploy to minikube
       shell: bash
-      run: kubectl apply -f example_usage.yml && kubectl rollout status statefulsets.apps example-aeron-k8s-bootstrap --timeout=90s
+      run: kubectl apply -f examples/example_usage.yml && kubectl rollout status statefulsets.apps example-aeron-k8s-bootstrap --timeout=90s
 
     - name: Test bootstrapping
       shell: bash
