@@ -26,15 +26,16 @@ By default, it...
 * connects to the K8s cluster API
 * looks up it's own namespace
 * finds every pod with an IP address that has the K8s label `aeron.io/media-driver=true`
-* returns the oldest 3 Pods, in order.
-* generates a bootstrap hosts list for Aeron media driver gossip of these 3 IPs.
+* returns the oldest 3 Pods, in order
+* selects the IP from the 3 Pod's `network-status` annotation, if available. Otherwise, selects the Pod IP.
+* generates a bootstrap hosts list for Aeron media driver gossip of these 3 IPs
 * generates a local media driver name in the format `<pod-name>.<namespace>.aeron`
 
 All this configuration is written to a java properties file (default `/etc/aeron/bootstrap.properties`), *which your media-driver process needs to load*.
 
 ## Assumptions made
 
-Your media driver code expects to load `/etc/aeron/bootstrap.properties` ( path configurable ) as part of it's startup, to use the generated configuration
+Your media driver code expects to load `/etc/aeron/bootstrap.properties` ( path configurable ) as part of it's startup, to use the generated configuration.
 
 ## Configuration
 
@@ -45,6 +46,8 @@ Your media driver code expects to load `/etc/aeron/bootstrap.properties` ( path 
 - `AERON_MD_MAX_BOOTSTRAP_PODS`: Maximum number of pods to include in bootstrap (default: 3, 0 = unlimited)
 - `AERON_MD_NAMESPACE`: Kubernetes namespace to scan (default: auto-discover from service account)
 - `AERON_MD_HOSTNAME_SUFFIX`: Suffix for Aeron resolver hostname (default: ".aeron")
+- `AERON_MD_SECONDARY_INTERFACE_NAME`: Name of secondary network interface to bind to (default: "net1"). Takes precedence over `AERON_MD_SECONDARY_INTERFACE_NETWORK_NAME`.
+- `AERON_MD_SECONDARY_INTERFACE_NETWORK_NAME`: Name of secondary network to bind to (default: "aeron-net1")
 - `HOSTNAME`: Pod hostname (used as the interface to bind to)
 
 ## Building the containers
